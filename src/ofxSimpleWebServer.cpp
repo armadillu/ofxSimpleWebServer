@@ -99,9 +99,15 @@ void ofxSimpleWebServer::startServer(){
 
 void ofxSimpleWebServer::stopServer(){
 	if(serverRunning){
-		ofLogError("ofxActionWebSever") << "can't stop server, not started!";
-	}else{
 		ofLogNotice("ofxActionWebSever") << "stopping server!";
+		try{
+			webServer->stopAll();
+			webServer->stop();
+		}catch(std::exception e){
+			ofLogError("ofxSimpleWebServer") << "Exception trying to stop server" << e.what();
+		}
+	}else{
+		ofLogError("ofxActionWebSever") << "can't stop server, not started!";
 	}
 }
 

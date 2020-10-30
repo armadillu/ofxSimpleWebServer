@@ -21,7 +21,7 @@ public:
 	void setup(int port, int maxThreads);
 
 	void startServer();
-	void stopServer();
+	void stopServer(); //note that you can't re-start it after its been stopped!
 
 	int getNumCurrentRequests();
 	string getStats();
