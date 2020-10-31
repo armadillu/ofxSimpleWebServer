@@ -53,10 +53,10 @@ void ofxSimpleWebServer::setup(int port, int maxThreads){
 
 		//customize socket options
 		ServerSocket * ssocket = new ServerSocket(port);
-		// ssocket->setLinger(true, 1);
-		// ssocket->setNoDelay(true);
-		// ssocket->setBlocking(false);
-		// ssocket->setReuseAddress(true);
+		ssocket->setLinger(true, 1);
+		ssocket->setNoDelay(true);
+		ssocket->setBlocking(true);
+		ssocket->setReuseAddress(true);
 
 		threadPool = new Poco::ThreadPool("ofxSimpleWebServerThrPool", 2, maxThreads, 10/*idle time*/);
 		webServer = new HTTPServer(new ofxSimpleWebServer::RequestHandlerFactory(&sharedData), *threadPool, *ssocket, pParams);
