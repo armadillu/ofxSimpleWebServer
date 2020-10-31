@@ -37,13 +37,15 @@ ofxSimpleWebServer::~ofxSimpleWebServer() {
 void ofxSimpleWebServer::setup(int port, int maxThreads){
 
 	if(!isSetup){
+
+		ofLogNotice("ofxSimpleWebServer") << "trying to setup at port " << port;
 		this->port = port;
 		this->maxThreads = maxThreads;
 
 		//http server params
 		HTTPServerParams* pParams = new HTTPServerParams;
 		pParams->setKeepAlive(true);
-		pParams->setMaxKeepAliveRequests(0);
+		pParams->setMaxKeepAliveRequests(2);
 		pParams->setKeepAliveTimeout(3);
 		pParams->setThreadIdleTime(Poco::Timespan(2,0));
 		pParams->setMaxQueued(32);
@@ -51,13 +53,13 @@ void ofxSimpleWebServer::setup(int port, int maxThreads){
 
 		//customize socket options
 		ServerSocket * ssocket = new ServerSocket(port);
-		ssocket->setLinger(true, 1);
-		ssocket->setNoDelay(true);
-		ssocket->setBlocking(true);
-		ssocket->setReuseAddress(true);
+		// ssocket->setLinger(true, 1);
+		// ssocket->setNoDelay(true);
+		// ssocket->setBlocking(false);
+		// ssocket->setReuseAddress(true);
 
 		threadPool = new Poco::ThreadPool("ofxSimpleWebServerThrPool", 2, maxThreads, 10/*idle time*/);
-		webServer = new HTTPServer(new ofxSimpleWebServer::RequestHandlerFactory(&sharedData), *threadPool,  *ssocket, pParams);
+		webServer = new HTTPServer(new ofxSimpleWebServer::RequestHandlerFactory(&sharedData), *threadPool, *ssocket, pParams);
 
 		ofLogNotice("ofxSimpleWebServer") << "setup on port " << port;
 		isSetup = true;
