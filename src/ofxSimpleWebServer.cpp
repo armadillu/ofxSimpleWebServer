@@ -22,7 +22,7 @@ ofxSimpleWebServer::~ofxSimpleWebServer() {
 		try{
 			webServer->stopAll();
 			webServer->stop();
-		}catch(std::exception e){
+		}catch(std::exception & e){
 			ofLogError("ofxSimpleWebServer") << "Exception trying to stop server" << e.what();
 		}
 
@@ -103,7 +103,7 @@ void ofxSimpleWebServer::stopServer(){
 		try{
 			webServer->stopAll();
 			webServer->stop();
-		}catch(std::exception e){
+		}catch(std::exception & e){
 			ofLogError("ofxSimpleWebServer") << "Exception trying to stop server" << e.what();
 		}
 	}else{
@@ -130,7 +130,7 @@ void ofxSimpleWebServer::RequestHandler::handleRequest(Poco::Net::HTTPServerRequ
 		WebRequestAction action = {req, resp, data->server};
 		ofNotifyEvent(data->eventWebRequest, action, this);
 
-	}catch(exception e){
+	}catch(std::exception & e){
 		ofLogFatalError("ofxSimpleWebServer") << e.what();
 	}
 	data->numCurrentRequests--;
