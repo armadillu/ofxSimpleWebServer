@@ -58,7 +58,7 @@ void ofxSimpleWebServer::setup(int port, int maxThreads){
 		ssocket->setBlocking(true);
 		ssocket->setReuseAddress(true);
 
-		threadPool = new Poco::ThreadPool("ofxSimpleWebServerThrPool", 1, MIN(maxThreads, 1), 30/*idle time*/);
+		threadPool = new Poco::ThreadPool("ofxSimpleWebServerThrPool", 1, MAX(maxThreads, 1), 30/*idle time*/);
 		webServer = new HTTPServer(new ofxSimpleWebServer::RequestHandlerFactory(&sharedData), *threadPool, *ssocket, pParams);
 
 		ofLogNotice("ofxSimpleWebServer") << "setup on port " << port;
